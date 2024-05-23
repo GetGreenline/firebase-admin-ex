@@ -1,6 +1,6 @@
 defmodule FirebaseAdminEx.Messaging do
   alias FirebaseAdminEx.{Request, Response, Errors}
-  alias FirebaseAdminEx.Messaging.Message
+  alias FirebaseAdminEx.Messaging.{Message, TopicMessage}
 
   @fcm_endpoint "https://fcm.googleapis.com/v1"
   @messaging_scope "https://www.googleapis.com/auth/firebase.messaging"
@@ -27,6 +27,23 @@ defmodule FirebaseAdminEx.Messaging do
   @spec send(String.t(), String.t(), struct()) :: tuple()
   def send(project_id, oauth_token, %Message{} = message) do
     with {:ok, message} <- Message.validate(message),
+         {:ok, response} <-
+           Request.request(
+             :post,
+             send_url(project_id),
+             %{message: message},
+             auth_header(oauth_token)
+           ),
+         {:ok, body} <- Response.parse(response) do
+      {:ok, body}
+    else
+      {:error, error} ->
+        raise Errors.ApiError, Kernel.inspect(error)
+    end
+  end
+
+  def send(project_id, oauth_token, %TopicMessage{} = message) do
+    with {:ok, message} <- TopicMessage.validate(message),
          {:ok, response} <-
            Request.request(
              :post,
