@@ -4,9 +4,8 @@ defmodule FirebaseAdminEx.Response do
       %HTTPoison.Response{status_code: 200, body: body} ->
         {:ok, body}
 
-      %HTTPoison.Response{status_code: status_code, body: body} ->
-        error_message = Jason.decode!(body) |> Map.get("error", %{}) |> Map.get("message")
-        {:error, "#{status_code} - #{error_message}"}
+      %HTTPoison.Response{status_code: _, body: body} ->
+        {:error, body}
     end
   end
 
