@@ -46,7 +46,9 @@ defmodule FirebaseAdminEx.DynamicLink do
          {:ok, result} <- Jason.decode(body) do
       {:ok, result}
     else
-      {:error, error} -> raise Errors.ApiError, Kernel.inspect(error)
+      {:error, error} ->
+        Kernel.inspect(error)
+        raise Errors.ApiError, error
     end
   end
 

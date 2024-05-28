@@ -38,7 +38,8 @@ defmodule FirebaseAdminEx.Messaging do
       {:ok, body}
     else
       {:error, error} ->
-        raise Errors.ApiError, Kernel.inspect(error)
+        Kernel.inspect(error)
+        raise Errors.ApiError, error
     end
   end
 
@@ -55,7 +56,8 @@ defmodule FirebaseAdminEx.Messaging do
       {:ok, body}
     else
       {:error, error} ->
-        raise Errors.ApiError, Kernel.inspect(error)
+        Kernel.inspect(error)
+        raise Errors.ApiError, error
     end
   end
 

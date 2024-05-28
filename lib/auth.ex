@@ -78,7 +78,9 @@ defmodule FirebaseAdminEx.Auth do
          {:ok, body} <- Response.parse(response) do
       {:ok, body}
     else
-      {:error, error} -> raise Errors.ApiError, Kernel.inspect(error)
+      {:error, error} ->
+        Kernel.inspect(error)
+        raise Errors.ApiError, error
     end
   end
 
@@ -93,7 +95,9 @@ defmodule FirebaseAdminEx.Auth do
          {:ok, body} <- Response.parse(response) do
       {:ok, body}
     else
-      {:error, error} -> raise Errors.ApiError, Kernel.inspect(error)
+      {:error, error} ->
+        Kernel.inspect(error)
+        raise Errors.ApiError, error
     end
   end
 
